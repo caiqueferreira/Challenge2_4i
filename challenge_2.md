@@ -272,7 +272,7 @@ ggplot(comexstat_year,aes(x =`year(date)`)) +
 We also sum the exports values from the last 5 years. The 3 most important products exported from Brazil in the last 5 years are soybeans (123,325.5 MUSD in total exports), sugar (40,938.49 MUSD in total exports), and soy meal (28.407,72 MUSD in total exports). Corn surpassed both sugar and soy meal in the last year, tough. 
 
 ```r
-kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -282,7 +282,7 @@ kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)"
 |       123,325.5|
 
 ```r
-kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -292,7 +292,7 @@ kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", 
 |      4,795.947|
 
 ```r
-kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -302,7 +302,7 @@ kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)"
 |       28,407.72|
 
 ```r
-kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -312,7 +312,7 @@ kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format
 |   24,447.72|
 
 ```r
-kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -322,7 +322,7 @@ kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", form
 |    40,938.49|
 
 ```r
-kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = "Wheat (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = "Wheat (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 
@@ -342,18 +342,18 @@ corn_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"))
+kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Corn Exports - USD
--------  -------------------
-Sea           22,688,665,107
-River            944,146,881
-Ground           168,550,371
-Other             44,078,699
-Air                4,319,297
+|Route  | Corn Exports - USD|
+|:------|------------------:|
+|Sea    |     22,688,665,107|
+|River  |        944,146,881|
+|Ground |        168,550,371|
+|Other  |         44,078,699|
+|Air    |          4,319,297|
 
 The graph shows monthly exports by route, and the importance of sea is clear.
 
@@ -382,18 +382,18 @@ soybeans_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"))
+kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Soybeans Exports - USD
--------  -----------------------
-Sea              119,462,994,908
-River              3,241,919,462
-Other                542,343,604
-Ground                43,059,249
-Air                      109,909
+|Route  | Soybeans Exports - USD|
+|:------|----------------------:|
+|Sea    |        119,462,994,908|
+|River  |          3,241,919,462|
+|Other  |            542,343,604|
+|Ground |             43,059,249|
+|Air    |                109,909|
 
 ```r
 ggplot(filter(comexstat, type == "Export" & product == "soybeans"),aes(x=date,y=usd/1000000,group = 1)) +
@@ -418,18 +418,18 @@ soybean_meal_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"))
+kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Soybean Meal Exports - USD
--------  ---------------------------
-Sea                   27,956,644,185
-Other                     30,536,840
-Air                        8,030,901
-Ground                     4,946,577
-River                         70,590
+|Route  | Soybean Meal Exports - USD|
+|:------|--------------------------:|
+|Sea    |             27,956,644,185|
+|Other  |                 30,536,840|
+|Air    |                  8,030,901|
+|Ground |                  4,946,577|
+|River  |                     70,590|
 
 ```r
 ggplot(filter(comexstat, type == "Export" & product == "soybean_meal"),aes(x=date,y=usd/1000000,group = 1)) +
@@ -454,18 +454,18 @@ soybean_oil_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"))
+kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Soybean Oil Exports - USD
--------  --------------------------
-Sea                   4,563,697,443
-Ground                  125,282,509
-Other                    24,410,767
-River                     3,356,822
-Air                           4,248
+|Route  | Soybean Oil Exports - USD|
+|:------|-------------------------:|
+|Sea    |             4,563,697,443|
+|Ground |               125,282,509|
+|Other  |                24,410,767|
+|River  |                 3,356,822|
+|Air    |                     4,248|
 
 ```r
 ggplot(filter(comexstat, type == "Export" & product == "soybean_oil"),aes(x=date,y=usd/1000000,group = 1)) +
@@ -490,18 +490,18 @@ sugar_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"))
+kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Sugar Exports - USD
--------  --------------------
-Sea            39,831,266,240
-Ground            246,415,441
-Other              20,510,408
-River              17,247,288
-Air                    36,400
+|Route  | Sugar Exports - USD|
+|:------|-------------------:|
+|Sea    |      39,831,266,240|
+|Ground |         246,415,441|
+|Other  |          20,510,408|
+|River  |          17,247,288|
+|Air    |              36,400|
 
 ```r
 ggplot(filter(comexstat, type == "Export" & product == "sugar"),aes(x=date,y=usd/1000000,group = 1)) +
@@ -526,17 +526,17 @@ wheat_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
 
-kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"))
+kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"), format = "markdown")
 ```
 
 
 
-Route     Wheat Exports - USD
--------  --------------------
-Sea               612,599,570
-Ground                821,269
-Other                  16,633
-Air                     2,139
+|Route  | Wheat Exports - USD|
+|:------|-------------------:|
+|Sea    |         612,599,570|
+|Ground |             821,269|
+|Other  |              16,633|
+|Air    |               2,139|
 
 ```r
 ggplot(filter(comexstat, type == "Export" & product == "wheat"),aes(x=date,y=usd/1000000,group = 1)) +
@@ -573,36 +573,36 @@ sugar_country3 = aggregate(cbind(usd)~country, data = sugar3, FUN = sum)
 
 kable(head(arrange(corn_country3, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Corn Total Exports - USD"))
+      col.names = c("Country", "Corn Total Exports - USD"), format = "markdown")
 ```
 
 
 
-Country        Corn Total Exports - USD
-------------  -------------------------
-Iran                      2,822,336,281
-Japan                     1,574,975,592
-Vietnam                   1,551,035,208
-Egypt                     1,375,065,136
-Spain                     1,335,769,607
-South Korea               1,024,567,902
+|Country     | Corn Total Exports - USD|
+|:-----------|------------------------:|
+|Iran        |            2,822,336,281|
+|Japan       |            1,574,975,592|
+|Vietnam     |            1,551,035,208|
+|Egypt       |            1,375,065,136|
+|Spain       |            1,335,769,607|
+|South Korea |            1,024,567,902|
 
 ```r
 kable(head(arrange(sugar_country3, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Sugar Total Exports - USD"))
+      col.names = c("Country", "Sugar Total Exports - USD"), format = "markdown")
 ```
 
 
 
-Country                 Sugar Total Exports - USD
----------------------  --------------------------
-Algeria                             2,176,380,928
-Bangladesh                          2,063,174,600
-India                               1,696,094,938
-United Arab Emirates                1,538,397,895
-Saudi Arabia                        1,380,455,693
-Nigeria                             1,336,515,029
+|Country              | Sugar Total Exports - USD|
+|:--------------------|-------------------------:|
+|Algeria              |             2,176,380,928|
+|Bangladesh           |             2,063,174,600|
+|India                |             1,696,094,938|
+|United Arab Emirates |             1,538,397,895|
+|Saudi Arabia         |             1,380,455,693|
+|Nigeria              |             1,336,515,029|
 
 # Question 5
 
@@ -613,114 +613,114 @@ soybeans_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "s
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybeans_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybeans Total Exports - USD"))
+      col.names = c("State", "Soybeans Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Soybeans Total Exports - USD
-------  -----------------------------
-MT                     80,506,781,707
-PR                     48,484,101,052
-RS                     46,136,733,396
-GO                     21,268,827,303
-MS                     13,284,815,678
-SP                     12,770,892,655
+|State | Soybeans Total Exports - USD|
+|:-----|----------------------------:|
+|MT    |               80,506,781,707|
+|PR    |               48,484,101,052|
+|RS    |               46,136,733,396|
+|GO    |               21,268,827,303|
+|MS    |               13,284,815,678|
+|SP    |               12,770,892,655|
 
 ```r
 soybean_meal_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_meal"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybean_meal_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybean Meal Total Exports - USD"))
+      col.names = c("State", "Soybean Meal Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Soybean Meal Total Exports - USD
-------  ---------------------------------
-MT                         27,994,539,842
-PR                         24,649,962,821
-RS                         15,007,385,729
-GO                          9,421,430,703
-BA                          5,439,265,638
-SP                          4,273,385,780
+|State | Soybean Meal Total Exports - USD|
+|:-----|--------------------------------:|
+|MT    |                   27,994,539,842|
+|PR    |                   24,649,962,821|
+|RS    |                   15,007,385,729|
+|GO    |                    9,421,430,703|
+|BA    |                    5,439,265,638|
+|SP    |                    4,273,385,780|
 
 ```r
 soybean_oil_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_oil"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybean_oil_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybean Oil Total Exports - USD"))
+      col.names = c("State", "Soybean Oil Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Soybean Oil Total Exports - USD
-------  --------------------------------
-PR                        11,109,102,057
-RS                         6,281,965,055
-MT                         5,434,513,926
-SC                         1,238,810,673
-GO                           855,920,734
-MG                           714,561,462
+|State | Soybean Oil Total Exports - USD|
+|:-----|-------------------------------:|
+|PR    |                  11,109,102,057|
+|RS    |                   6,281,965,055|
+|MT    |                   5,434,513,926|
+|SC    |                   1,238,810,673|
+|GO    |                     855,920,734|
+|MG    |                     714,561,462|
 
 ```r
 corn_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "corn"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(corn_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Corn Total Exports - USD"))
+      col.names = c("State", "Corn Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Corn Total Exports - USD
-------  -------------------------
-MT                 28,375,516,035
-PR                  9,160,511,995
-GO                  5,706,990,655
-MS                  3,405,430,680
-SP                  1,511,121,926
-RS                  1,209,460,262
+|State | Corn Total Exports - USD|
+|:-----|------------------------:|
+|MT    |           28,375,516,035|
+|PR    |            9,160,511,995|
+|GO    |            5,706,990,655|
+|MS    |            3,405,430,680|
+|SP    |            1,511,121,926|
+|RS    |            1,209,460,262|
 
 ```r
 sugar_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "sugar"
                                                     & type == "Export"), FUN = sum)
 kable(head(arrange(sugar_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Sugar Total Exports - USD"))
+      col.names = c("State", "Sugar Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Sugar Total Exports - USD
-------  --------------------------
-SP                  66,211,861,392
-MG                   8,559,401,218
-PR                   8,270,778,644
-AL                   4,826,419,200
-MS                   3,219,034,929
-GO                   3,040,882,114
+|State | Sugar Total Exports - USD|
+|:-----|-------------------------:|
+|SP    |            66,211,861,392|
+|MG    |             8,559,401,218|
+|PR    |             8,270,778,644|
+|AL    |             4,826,419,200|
+|MS    |             3,219,034,929|
+|GO    |             3,040,882,114|
 
 ```r
 wheat_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "wheat"
                                                     & type == "Export"), FUN = sum)
 kable(head(arrange(wheat_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Wheat Total Exports - USD"))
+      col.names = c("State", "Wheat Total Exports - USD"), format = "markdown")
 ```
 
 
 
-State    Wheat Total Exports - USD
-------  --------------------------
-RS                   1,555,925,283
-PR                     183,935,397
-SC                      25,400,089
-SP                       2,267,024
-MS                         275,733
-MG                          39,600
+|State | Wheat Total Exports - USD|
+|:-----|-------------------------:|
+|RS    |             1,555,925,283|
+|PR    |               183,935,397|
+|SC    |                25,400,089|
+|SP    |                 2,267,024|
+|MS    |                   275,733|
+|MG    |                    39,600|
 
 # Question 6
 
@@ -738,19 +738,19 @@ soybeans_ctr = aggregate(cbind(tons)~country,
                                          type == "Export"), FUN = sum)
 kable(head(arrange(soybeans_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Soybeans Total Exports - Tons"))
+      col.names = c("Country", "Soybeans Total Exports - Tons"), format = "markdown")
 ```
 
 
 
-Country        Soybeans Total Exports - Tons
-------------  ------------------------------
-China                            462,112,012
-Netherlands                       56,328,976
-Spain                             40,938,099
-Thailand                          18,780,945
-Germany                           18,658,585
-Italy                             12,708,318
+|Country     | Soybeans Total Exports - Tons|
+|:-----------|-----------------------------:|
+|China       |                   462,112,012|
+|Netherlands |                    56,328,976|
+|Spain       |                    40,938,099|
+|Thailand    |                    18,780,945|
+|Germany     |                    18,658,585|
+|Italy       |                    12,708,318|
 
 ```r
 soybean_meal_ctr = aggregate(cbind(tons)~country, 
@@ -758,19 +758,19 @@ soybean_meal_ctr = aggregate(cbind(tons)~country,
                                          type == "Export"), FUN = sum)
 knitr::kable(head(arrange(soybean_meal_ctr, desc(tons))), 
              booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Soybean Meal Total Exports - Tons"))
+      col.names = c("Country", "Soybean Meal Total Exports - Tons"), format = "markdown")
 ```
 
 
 
-Country        Soybean Meal Total Exports - Tons
-------------  ----------------------------------
-Netherlands                           71,439,005
-France                                47,988,906
-Germany                               24,414,845
-Thailand                              23,024,506
-South Korea                           18,847,461
-Indonesia                             15,742,358
+|Country     | Soybean Meal Total Exports - Tons|
+|:-----------|---------------------------------:|
+|Netherlands |                        71,439,005|
+|France      |                        47,988,906|
+|Germany     |                        24,414,845|
+|Thailand    |                        23,024,506|
+|South Korea |                        18,847,461|
+|Indonesia   |                        15,742,358|
 
 ```r
 corn_ctr = aggregate(cbind(tons)~country, 
@@ -778,19 +778,19 @@ corn_ctr = aggregate(cbind(tons)~country,
                                          type == "Export"), FUN = sum)
 kable(head(arrange(corn_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Corn Total Exports - Tons"))
+      col.names = c("Country", "Corn Total Exports - Tons"), format = "markdown")
 ```
 
 
 
-Country        Corn Total Exports - Tons
-------------  --------------------------
-Iran                          48,801,136
-Japan                         26,116,657
-South Korea                   25,485,112
-Vietnam                       22,105,049
-Spain                         19,549,095
-Taiwan                        17,483,869
+|Country     | Corn Total Exports - Tons|
+|:-----------|-------------------------:|
+|Iran        |                48,801,136|
+|Japan       |                26,116,657|
+|South Korea |                25,485,112|
+|Vietnam     |                22,105,049|
+|Spain       |                19,549,095|
+|Taiwan      |                17,483,869|
 
 The first is the soybeans exports model. We use the yearly data base created in the Question 1 to analyse the ACF and PACF functions (as well as the year graph presented in the Question 1). The time series has a trend, and the ACF and PACF allows us to think about an autorregressive behavior of order 1.
 
