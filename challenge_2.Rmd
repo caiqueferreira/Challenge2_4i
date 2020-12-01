@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Challenge 2
 
 Let's begin installing the packages.
-```{r}
+```{r echo = FALSE, results='asis'}
 library(tidyverse)
 library(lubridate)
 library(knitr)
@@ -195,12 +195,12 @@ ggplot(comexstat_year,aes(x =`year(date)`)) +
 
 We also sum the exports values from the last 5 years. The 3 most important products exported from Brazil in the last 5 years are soybeans (123,325.5 MUSD in total exports), sugar (40,938.49 MUSD in total exports), and soy meal (28.407,72 MUSD in total exports). Corn surpassed both sugar and soy meal in the last year, tough. 
 ```{r}
-kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
-kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
-kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
-kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
-kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
-kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = "Wheat (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
+kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
+kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
+kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
+kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
+kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = "Wheat (MUSD)", format.args = list(big.mark = ",", scientific = FALSE), format = "markdown")
 ```
 
 # Question 3
@@ -212,7 +212,8 @@ corn_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"))
+
+kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"), format = "markdown")
 ```
 
 The graph shows monthly exports by route, and the importance of sea is clear.
@@ -233,7 +234,8 @@ soybeans_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"))
+
+kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"), format = "markdown")
 
 ggplot(filter(comexstat, type == "Export" & product == "soybeans"),aes(x=date,y=usd/1000000,group = 1)) +
   ggtitle("Soybeans Exports by Route (Millions of USD)") +
@@ -248,7 +250,8 @@ soybean_meal_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"))
+
+kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"), format = "markdown")
 
 ggplot(filter(comexstat, type == "Export" & product == "soybean_meal"),aes(x=date,y=usd/1000000,group = 1)) +
   ggtitle("Soybean Meal Exports by Route (Millions of USD)") +
@@ -263,7 +266,8 @@ soybean_oil_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"))
+
+kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"), format = "markdown")
 
 ggplot(filter(comexstat, type == "Export" & product == "soybean_oil"),aes(x=date,y=usd/1000000,group = 1)) +
   ggtitle("Soybean Oil Exports by Route (Millions of USD)") +
@@ -278,7 +282,8 @@ sugar_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"))
+
+kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"), format = "markdown")
 
 ggplot(filter(comexstat, type == "Export" & product == "sugar"),aes(x=date,y=usd/1000000,group = 1)) +
   ggtitle("Sugar Exports by Route (Millions of USD)") +
@@ -293,7 +298,8 @@ wheat_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
-kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"))
+
+kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"), format = "markdown")
 
 ggplot(filter(comexstat, type == "Export" & product == "wheat"),aes(x=date,y=usd/1000000,group = 1)) +
   ggtitle("Wheat Exports by Route (Millions of USD)") +
@@ -322,11 +328,11 @@ sugar_country3 = aggregate(cbind(usd)~country, data = sugar3, FUN = sum)
 
 kable(head(arrange(corn_country3, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Corn Total Exports - USD"))
+      col.names = c("Country", "Corn Total Exports - USD"), format = "markdown")
 
 kable(head(arrange(sugar_country3, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Sugar Total Exports - USD"))
+      col.names = c("Country", "Sugar Total Exports - USD"), format = "markdown")
 ```
 
 # Question 5
@@ -337,37 +343,37 @@ soybeans_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "s
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybeans_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybeans Total Exports - USD"))
+      col.names = c("State", "Soybeans Total Exports - USD"), format = "markdown")
 
 soybean_meal_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_meal"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybean_meal_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybean Meal Total Exports - USD"))
+      col.names = c("State", "Soybean Meal Total Exports - USD"), format = "markdown")
 
 soybean_oil_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_oil"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(soybean_oil_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Soybean Oil Total Exports - USD"))
+      col.names = c("State", "Soybean Oil Total Exports - USD"), format = "markdown")
 
 corn_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "corn"
                                                         & type == "Export"), FUN = sum)
 kable(head(arrange(corn_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Corn Total Exports - USD"))
+      col.names = c("State", "Corn Total Exports - USD"), format = "markdown")
 
 sugar_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "sugar"
                                                     & type == "Export"), FUN = sum)
 kable(head(arrange(sugar_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Sugar Total Exports - USD"))
+      col.names = c("State", "Sugar Total Exports - USD"), format = "markdown")
 
 wheat_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "wheat"
                                                     & type == "Export"), FUN = sum)
 kable(head(arrange(wheat_uf, desc(usd))), 
       format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("State", "Wheat Total Exports - USD"))
+      col.names = c("State", "Wheat Total Exports - USD"), format = "markdown")
 ```
 
 # Question 6
@@ -384,21 +390,21 @@ soybeans_ctr = aggregate(cbind(tons)~country,
                                          type == "Export"), FUN = sum)
 kable(head(arrange(soybeans_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Soybeans Total Exports - Tons"))
+      col.names = c("Country", "Soybeans Total Exports - Tons"), format = "markdown")
 
 soybean_meal_ctr = aggregate(cbind(tons)~country, 
                          data = filter(comexstat, product == "soybean_meal" & 
                                          type == "Export"), FUN = sum)
 knitr::kable(head(arrange(soybean_meal_ctr, desc(tons))), 
              booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Soybean Meal Total Exports - Tons"))
+      col.names = c("Country", "Soybean Meal Total Exports - Tons"), format = "markdown")
 
 corn_ctr = aggregate(cbind(tons)~country, 
                          data = filter(comexstat, product == "corn" & 
                                          type == "Export"), FUN = sum)
 kable(head(arrange(corn_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
-      col.names = c("Country", "Corn Total Exports - Tons"))
+      col.names = c("Country", "Corn Total Exports - Tons"), format = "markdown")
 ```
 
 The first is the soybeans exports model. We use the yearly data base created in the Question 1 to analyse the ACF and PACF functions (as well as the year graph presented in the Question 1). The time series has a trend, and the ACF and PACF allows us to think about an autorregressive behavior of order 1.

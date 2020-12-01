@@ -195,7 +195,6 @@ summary {
 <div id="challenge-2" class="section level2">
 <h2>Challenge 2</h2>
 <p>Let's begin installing the packages.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## -- Attaching packages ---------------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.3.2     v purrr   0.3.3
 ## v tibble  3.0.1     v dplyr   0.8.5
@@ -204,14 +203,11 @@ summary {
 <pre><code>## -- Conflicts ------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(lubridate)</code></pre>
 <pre><code>## 
 ## Attaching package: 'lubridate'</code></pre>
 <pre><code>## The following object is masked from 'package:base':
 ## 
 ##     date</code></pre>
-<pre class="r"><code>library(knitr)
-library(forecast)</code></pre>
 <p>Now we choose the directory and open the data file.</p>
 <pre class="r"><code>setwd(&quot;C:/Users/Caique/Desktop/Mestrado_FEARP/Processo_seletivo/4intelligence/Challenge_2&quot;)
 comexstat = read.csv(&quot;C:/Users/Caique/Desktop/Mestrado_FEARP/Processo_seletivo/4intelligence/Challenge_4i/data_comexstat.csv&quot;)</code></pre>
@@ -364,7 +360,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 <pre><code>## Warning: Removed 6 row(s) containing missing values (geom_path).</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>We also sum the exports values from the last 5 years. The 3 most important products exported from Brazil in the last 5 years are soybeans (123,325.5 MUSD in total exports), sugar (40,938.49 MUSD in total exports), and soy meal (28.407,72 MUSD in total exports). Corn surpassed both sugar and soy meal in the last year, tough.</p>
-<pre class="r"><code>kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = &quot;Soybeans (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = &quot;Soybeans (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -377,7 +373,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = &quot;Soy oil (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = &quot;Soy oil (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -390,7 +386,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = &quot;Soy meal (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = &quot;Soy meal (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -403,7 +399,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(sum(comexstat_year$corn[19:23]/1000000), col.names = &quot;Corn (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$corn[19:23]/1000000), col.names = &quot;Corn (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -416,7 +412,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = &quot;Sugar (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = &quot;Sugar (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -429,7 +425,7 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = &quot;Wheat (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE))</code></pre>
+<pre class="r"><code>kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = &quot;Wheat (MUSD)&quot;, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -451,7 +447,8 @@ comexstat_year = comexstat_year %&gt;% select(-2)</code></pre>
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Corn Exports - USD&quot;))</code></pre>
+
+kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Corn Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -498,7 +495,8 @@ kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = &quot;,&quot
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybeans Exports - USD&quot;))</code></pre>
+
+kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybeans Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -543,7 +541,8 @@ kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = &quot;,&
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybean Meal Exports - USD&quot;))</code></pre>
+
+kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybean Meal Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -588,7 +587,8 @@ kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = &quo
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybean Oil Exports - USD&quot;))</code></pre>
+
+kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Soybean Oil Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -633,7 +633,8 @@ kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = &quot
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Sugar Exports - USD&quot;))</code></pre>
+
+kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Sugar Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -678,7 +679,8 @@ kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = &quot;,&quo
                                                              type == &quot;Export&quot; &amp; 
                                                              date &gt; as.Date(&quot;2015-01-01&quot;)), 
                            FUN = sum)
-kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Wheat Exports - USD&quot;))</code></pre>
+
+kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), col.names = c(&quot;Route&quot;, &quot;Wheat Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -732,7 +734,7 @@ sugar_country3 = aggregate(cbind(usd)~country, data = sugar3, FUN = sum)
 
 kable(head(arrange(corn_country3, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;Country&quot;, &quot;Corn Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;Country&quot;, &quot;Corn Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -769,7 +771,7 @@ kable(head(arrange(corn_country3, desc(usd))),
 </table>
 <pre class="r"><code>kable(head(arrange(sugar_country3, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;Country&quot;, &quot;Sugar Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;Country&quot;, &quot;Sugar Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -812,7 +814,7 @@ kable(head(arrange(corn_country3, desc(usd))),
                                                         &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(soybeans_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Soybeans Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Soybeans Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -851,7 +853,7 @@ kable(head(arrange(soybeans_uf, desc(usd))),
                                                         &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(soybean_meal_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Soybean Meal Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Soybean Meal Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -890,7 +892,7 @@ kable(head(arrange(soybean_meal_uf, desc(usd))),
                                                         &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(soybean_oil_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Soybean Oil Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Soybean Oil Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -929,7 +931,7 @@ kable(head(arrange(soybean_oil_uf, desc(usd))),
                                                         &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(corn_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Corn Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Corn Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -968,7 +970,7 @@ kable(head(arrange(corn_uf, desc(usd))),
                                                     &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(sugar_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Sugar Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Sugar Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1007,7 +1009,7 @@ kable(head(arrange(sugar_uf, desc(usd))),
                                                     &amp; type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(wheat_uf, desc(usd))), 
       format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;State&quot;, &quot;Wheat Total Exports - USD&quot;))</code></pre>
+      col.names = c(&quot;State&quot;, &quot;Wheat Total Exports - USD&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1053,7 +1055,7 @@ kable(head(arrange(wheat_uf, desc(usd))),
                                          type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(soybeans_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;Country&quot;, &quot;Soybeans Total Exports - Tons&quot;))</code></pre>
+      col.names = c(&quot;Country&quot;, &quot;Soybeans Total Exports - Tons&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1093,7 +1095,7 @@ kable(head(arrange(soybeans_ctr, desc(tons))),
                                          type == &quot;Export&quot;), FUN = sum)
 knitr::kable(head(arrange(soybean_meal_ctr, desc(tons))), 
              booktabs = TRUE, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;Country&quot;, &quot;Soybean Meal Total Exports - Tons&quot;))</code></pre>
+      col.names = c(&quot;Country&quot;, &quot;Soybean Meal Total Exports - Tons&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1133,7 +1135,7 @@ knitr::kable(head(arrange(soybean_meal_ctr, desc(tons))),
                                          type == &quot;Export&quot;), FUN = sum)
 kable(head(arrange(corn_ctr, desc(tons))), 
       booktabs = TRUE, format.args = list(big.mark = &quot;,&quot;, scientific = FALSE), 
-      col.names = c(&quot;Country&quot;, &quot;Corn Total Exports - Tons&quot;))</code></pre>
+      col.names = c(&quot;Country&quot;, &quot;Corn Total Exports - Tons&quot;), format = &quot;markdown&quot;)</code></pre>
 <table>
 <thead>
 <tr class="header">
