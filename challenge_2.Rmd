@@ -1,0 +1,501 @@
+---
+title: "Challenge 2 - 4intelligence"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Challenge 2
+
+Let's begin installing the packages.
+```{r}
+library(tidyverse)
+library(lubridate)
+library(knitr)
+library(forecast)
+```
+
+Now we choose the directory and open the data file.
+```{r}
+setwd("C:/Users/Caique/Desktop/Mestrado_FEARP/Processo_seletivo/4intelligence/Challenge_2")
+comexstat = read.csv("C:/Users/Caique/Desktop/Mestrado_FEARP/Processo_seletivo/4intelligence/Challenge_4i/data_comexstat.csv")
+```
+
+# Question 1
+
+We begin transforming the date variable into a date format.
+```{r}
+comexstat$date = as.Date(comexstat$date)
+```
+
+And we are ready to make the monthly graphs. The first two are soybeans export graphs (tons and dollars).
+
+```{r}
+ggplot(filter(comexstat, type == "Export" & product == "soybeans"),aes(x=as.character(date),y=tons/1000,group=1)) +
+  ggtitle("Soybeans Exports by Month (Tons x1000)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybeans Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+
+ggplot(filter(comexstat, type == "Export" & product == "soybeans"),aes(x=as.character(date),y=usd/1000000,group=1)) +
+  ggtitle("Soybeans Exports by Month (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybeans Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+```
+
+The second product we observe the monthly evolution is soybean oil.
+```{r}
+ggplot(filter(comexstat, type == "Export" & product == "soybean_oil"),aes(x=as.character(date),y=tons/1000,group=1)) +
+  ggtitle("Soybean Oil Exports by Month (Tons x1000)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Oil Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+
+ggplot(filter(comexstat, type == "Export" & product == "soybean_oil"),aes(x=as.character(date),y=usd/1000000,group=1)) +
+  ggtitle("Soybean Oil Exports by Month (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Oil Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+```
+
+Finally, we have the soybean meal graphs.
+```{r}
+ggplot(filter(comexstat, type == "Export" & product == "soybean_meal"),aes(x=as.character(date),y=tons/1000,group=1)) +
+  ggtitle("Soybean Meal Exports by Month (Tons x1000)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Meal Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+
+ggplot(filter(comexstat, type == "Export" & product == "soybean_meal"),aes(x=as.character(date),y=usd/1000000,group=1)) +
+  ggtitle("Soybean Meal Exports by Month (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Meal Exports") +
+  scale_x_discrete(breaks = c("1997-01-01", "2002-01-01", "2007-01-01", "2012-01-01", "2017-01-01"), 
+                   labels = c("Jan 1997", "Jan 2002", "Jan 2007", "Jan 2012", "Jan 2017")) +
+  geom_line()
+```
+
+To make the year graphs, we decided to construct new data bases with periods being years. We did that aggregating the monthly data into years by sum.
+```{r}
+soybeans_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                              data = filter(comexstat, type == "Export" & 
+                                              product == "soybeans"), FUN = sum)
+soybean_oil_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                                 data = filter(comexstat, type == "Export" & 
+                                                 product == "soybean_oil"), FUN = sum)
+soybean_meal_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                                  data = filter(comexstat, type == "Export" & 
+                                                  product == "soybean_meal"), FUN = sum)
+```
+
+Again, we have export graphs with tons and dollars, as the products are the same as the monthly graphs.
+```{r}
+ggplot(soybeans_exp_year, aes(x=`year(date)`, y = tons/1000000, group=1)) +
+  ggtitle("Soybeans Exports by Year (Millions of Tons)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybeans Exports") +
+  geom_line(color="blue4", size=1.5) +
+  geom_point(color="blue4", size=3)
+
+ggplot(soybeans_exp_year, aes(x=`year(date)`, y = usd/1000000, group=1)) +
+  ggtitle("Soybeans Exports by Year (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybeans Exports") +
+  geom_line(color="blue4", size=1.5) +
+  geom_point(color="blue4", size=3)
+
+ggplot(soybean_oil_exp_year, aes(x=`year(date)`, y = tons/1000000, group=1)) +
+  ggtitle("Soybean Oil Exports by Year (Millions of Tons)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybean Oil Exports") +
+  geom_line(color="green4", size=1.5) +
+  geom_point(color="green4", size=3)
+
+ggplot(soybean_oil_exp_year, aes(x=`year(date)`, y = usd/1000000, group=1)) +
+  ggtitle("Soybean Oil Exports by Year (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybean Oil Exports") +
+  geom_line(color="green4", size=1.5) +
+  geom_point(color="green4", size=3)
+
+ggplot(soybean_meal_exp_year, aes(x=`year(date)`, y = tons/1000000, group=1)) +
+  ggtitle("Soybean Meal Exports by Year (Millions of Tons)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybean Meal Exports") +
+  geom_line(color="red4", size=1.5) +
+  geom_point(color="red4", size=3)
+
+ggplot(soybean_meal_exp_year, aes(x=`year(date)`, y = usd/1000000, group=1)) +
+  ggtitle("Soybean Meal Exports by Year (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Year", y = "Soybean Meal Exports") +
+  geom_line(color="red4", size=1.5) +
+  geom_point(color="red4", size=3)
+```
+
+# Question 2
+
+Let's begin by constructing a yearly data base of the products exports. We aggregate the remaining products and then create a joint database with all the products exports (in USD) by year.
+```{r}
+sugar_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                              data = filter(comexstat, type == "Export" & 
+                                              product == "sugar"), FUN = sum)
+corn_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                              data = filter(comexstat, type == "Export" & 
+                                              product == "corn"), FUN = sum)
+wheat_exp_year = aggregate(cbind(tons, usd)~year(date), 
+                              data = filter(comexstat, type == "Export" & 
+                                              product == "wheat"), FUN = sum)
+comexstat_year = soybeans_exp_year
+comexstat_year$soy_oil = soybean_oil_exp_year$usd
+comexstat_year$soy_meal = soybean_meal_exp_year$usd
+comexstat_year$sugar = sugar_exp_year$usd
+comexstat_year$corn = corn_exp_year$usd
+```
+
+The wheat data have less periods, so we add missing values to the data base. We also modify the data base to have a cleaner ambient.
+```{r}
+wheat_exp_year = add_row(wheat_exp_year, `year(date)` = 1997:2002, .before = 1)
+wheat_exp_year = add_row(wheat_exp_year, `year(date)` = 2007, tons = 0, usd = 0, .before = 11)
+
+comexstat_year$wheat = wheat_exp_year$usd
+names(comexstat_year)[3] = "soybeans"
+comexstat_year = comexstat_year %>% select(-2)
+```
+
+The next graph compares the exports (in MUSD) of the six different products, focusing on the last 5 years (after the vertical line).
+```{r}
+ggplot(comexstat_year,aes(x =`year(date)`)) +
+  ggtitle("Brazilian Exports by Year (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  geom_line(aes(y = soybeans/1000000, colour = "Soybeans")) +
+  geom_line(aes(y = soy_oil/1000000, colour = "Soy oil")) +
+  geom_line(aes(y = soy_meal/1000000, colour = "Soy meal")) +
+  geom_line(aes(y = corn/1000000, colour = "Corn")) +
+  geom_line(aes(y = sugar/1000000, colour = "Sugar")) +
+  geom_line(aes(y = wheat/1000000, colour = "Wheat")) +
+  labs(x = "Year", y = "Exports", colour = "Product") +
+  geom_vline(xintercept = 2014)
+```
+
+We also sum the exports values from the last 5 years. The 3 most important products exported from Brazil in the last 5 years are soybeans (123,325.5 MUSD in total exports), sugar (40,938.49 MUSD in total exports), and soy meal (28.407,72 MUSD in total exports). Corn surpassed both sugar and soy meal in the last year, tough. 
+```{r}
+kable(sum(comexstat_year$soybeans[19:23]/1000000), col.names = "Soybeans (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soy_oil[19:23]/1000000), col.names = "Soy oil (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$soy_meal[19:23]/1000000), col.names = "Soy meal (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$corn[19:23]/1000000), col.names = "Corn (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$sugar[19:23]/1000000), col.names = "Sugar (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+kable(sum(comexstat_year$wheat[19:23]/1000000), col.names = "Wheat (MUSD)", format.args = list(big.mark = ",", scientific = FALSE))
+```
+
+# Question 3
+
+We create a data base aggregating the corn exports by route, summing the values of the last 5 years. Then, we present an ordered table with the exports by route in USD. The most important corn export route is sea, followed by river.
+```{r}
+corn_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "corn" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"))
+```
+
+The graph shows monthly exports by route, and the importance of sea is clear.
+```{r}
+ggplot(filter(comexstat, type == "Export" & product == "corn"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Corn Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Corn Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+```
+
+Regarding the other products, the importance of sea routes is even bigger than corn exports sea predominance. The river routes are far less important considering all the products, except for soybeans.
+```{r}
+soybeans_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "soybeans" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"))
+
+ggplot(filter(comexstat, type == "Export" & product == "soybeans"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Soybeans Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybeans Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+
+soybean_meal_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "soybean_meal" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"))
+
+ggplot(filter(comexstat, type == "Export" & product == "soybean_meal"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Soybean Meal Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Meal Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+
+soybean_oil_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "soybean_oil" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"))
+
+ggplot(filter(comexstat, type == "Export" & product == "soybean_oil"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Soybean Oil Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Soybean Oil Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+
+sugar_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "sugar" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"))
+
+ggplot(filter(comexstat, type == "Export" & product == "sugar"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Sugar Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Sugar Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+
+wheat_route = aggregate(cbind(usd)~route, data = filter(comexstat, 
+                                                           product == "wheat" & 
+                                                             type == "Export" & 
+                                                             date > as.Date("2015-01-01")), 
+                           FUN = sum)
+kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"))
+
+ggplot(filter(comexstat, type == "Export" & product == "wheat"),aes(x=date,y=usd/1000000,group = 1)) +
+  ggtitle("Wheat Exports by Route (Millions of USD)") +
+  theme(text = element_text(size=10)) +
+  labs(x = "Month", y = "Wheat Exports") +
+  scale_x_date(limits = as.Date(c("2015-01-01", "2019-12-01"))) +
+  facet_wrap(~route) +
+  geom_line()
+```
+
+# Question 4
+
+We begin creating a year variable in the main data base. Then, we create new data bases filtering by corn and sugar exports in the last 3 years. Then, we aggregate by summing the last 3 years corn/sugar exports by each trade partner. The tables below shows the results.
+```{r}
+comexstat$year = year(comexstat$date)
+
+corn3 = comexstat %>%
+  filter(product == "corn" & type == "Export" & year > 2016)
+
+sugar3 = comexstat %>%
+  filter(product == "sugar" & type == "Export" & year > 2016)
+
+corn_country3 = aggregate(cbind(usd)~country, data = corn3, FUN = sum)
+
+sugar_country3 = aggregate(cbind(usd)~country, data = sugar3, FUN = sum)
+
+kable(head(arrange(corn_country3, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("Country", "Corn Total Exports - USD"))
+
+kable(head(arrange(sugar_country3, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("Country", "Sugar Total Exports - USD"))
+```
+
+# Question 5
+
+Similar to the Question 4, we aggregate the exports by summing all the years separating by state. The results for all the six products are presented in the tables below.
+```{r}
+soybeans_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybeans"
+                                                        & type == "Export"), FUN = sum)
+kable(head(arrange(soybeans_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Soybeans Total Exports - USD"))
+
+soybean_meal_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_meal"
+                                                        & type == "Export"), FUN = sum)
+kable(head(arrange(soybean_meal_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Soybean Meal Total Exports - USD"))
+
+soybean_oil_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "soybean_oil"
+                                                        & type == "Export"), FUN = sum)
+kable(head(arrange(soybean_oil_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Soybean Oil Total Exports - USD"))
+
+corn_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "corn"
+                                                        & type == "Export"), FUN = sum)
+kable(head(arrange(corn_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Corn Total Exports - USD"))
+
+sugar_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "sugar"
+                                                    & type == "Export"), FUN = sum)
+kable(head(arrange(sugar_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Sugar Total Exports - USD"))
+
+wheat_uf = aggregate(cbind(usd)~state, data = filter(comexstat, product == "wheat"
+                                                    & type == "Export"), FUN = sum)
+kable(head(arrange(wheat_uf, desc(usd))), 
+      format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("State", "Wheat Total Exports - USD"))
+```
+
+# Question 6
+
+First of all, let's open the covariates data base. We do that by copying the Excel sheet and then running the code below (We've also filtered the values on Excel to select the data from 1997 to 2030).
+```{r}
+covariates = read.table(file = "clipboard", sep = "\t", header=TRUE)
+```
+
+Similar to Question 4, we classify the most important trade partners for each of the products we are going to model. This time, the classification in by tons instead of dollars, as we consider all the available dates.
+```{r}
+soybeans_ctr = aggregate(cbind(tons)~country, 
+                         data = filter(comexstat, product == "soybeans" & 
+                                         type == "Export"), FUN = sum)
+kable(head(arrange(soybeans_ctr, desc(tons))), 
+      booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("Country", "Soybeans Total Exports - Tons"))
+
+soybean_meal_ctr = aggregate(cbind(tons)~country, 
+                         data = filter(comexstat, product == "soybean_meal" & 
+                                         type == "Export"), FUN = sum)
+knitr::kable(head(arrange(soybean_meal_ctr, desc(tons))), 
+             booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("Country", "Soybean Meal Total Exports - Tons"))
+
+corn_ctr = aggregate(cbind(tons)~country, 
+                         data = filter(comexstat, product == "corn" & 
+                                         type == "Export"), FUN = sum)
+kable(head(arrange(corn_ctr, desc(tons))), 
+      booktabs = TRUE, format.args = list(big.mark = ",", scientific = FALSE), 
+      col.names = c("Country", "Corn Total Exports - Tons"))
+```
+
+The first is the soybeans exports model. We use the yearly data base created in the Question 1 to analyse the ACF and PACF functions (as well as the year graph presented in the Question 1). The time series has a trend, and the ACF and PACF allows us to think about an autorregressive behavior of order 1.
+```{r}
+# Soybeans model
+
+acf(soybeans_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+pacf(soybeans_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+```
+
+With that in mind, we choose an ARIMA aproach. The order selected is ARIMA(1,1,0), given the characteristics of the time series. The following steps are going to be repeated for the other models. First, we create a covariates time series for the soybeans model. For all the models he select the price variable and the GDP of an important trade partner. In the soybeans case, that is China.
+```{r}
+cov_soybeans = covariates %>%
+  select(price_soybeans, gdp_china)
+
+cov_soybeans = ts(cov_soybeans)
+```
+
+Then, we separate the series in past values (before 2020) and future values (after 2019). 
+```{r}
+reg1 = window(cov_soybeans, end = 23) # past values
+forec1 = window(cov_soybeans, start = 24) # future values
+```
+
+The regression (fit1) uses the covariates past values, and the forecast (forecast1) uses the covariates future values. We present the graph with the forecast.
+```{r}
+fit1 = Arima(soybeans_exp_year$tons, xreg = reg1, order = c(1,1,0))
+forecast1 = forecast(fit1, xreg = forec1)
+autoplot(forecast1, ylab = "Soybeans Exports (Tons)")
+```
+
+And, finally, we have the regression summary.
+```{r}
+summary(fit1)
+```
+
+Now it's time for the soybean meal forecasting model. The ACF, PACF, and year graphs also show a trend and a possible autorregressive behavior of order 1. Therefore, we choose the ARIMA (1,1,0) once again.
+```{r}
+# soybean meal model
+
+acf(soybean_meal_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+pacf(soybean_meal_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+```
+
+The selected trade partner is Netherlands.
+```{r}
+cov_soybean_meal = covariates %>%
+  select(price_soybean_meal, gpd_netherlands)
+
+cov_soybean_meal = ts(cov_soybean_meal)
+```
+
+Now, we model and forecast.
+```{r}
+reg2 = window(cov_soybean_meal, end = 23)
+forec2 = window(cov_soybean_meal, start = 24)
+
+fit2 = Arima(soybean_meal_exp_year$tons, xreg = reg2, order = c(1,1,0))
+forecast2 = forecast(fit2, xreg = forec2)
+autoplot(forecast2, ylab = "Soybean Meal Exports (Tons)")
+```
+
+The regression summary is presented below.
+```{r}
+summary(fit2)
+```
+
+The last product is corn, which we have to plot the time series. Note that the time series have a trend and a possible moving average. The ACF and PACF show a possible autorregressive behavior of order 1. Therefore, we also select the ARIMA(1,1,1) for the corn exports forecasting model.
+```{r}
+# corn model
+
+ggplot(corn_exp_year, aes(x = `year(date)`, y = tons)) +
+  geom_line()
+acf(corn_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+pacf(corn_exp_year$tons, lag.max = 20, lwd = 5, main = "")
+```
+
+As trade partners, we select Iran and Japan, adding their GDP variables to the model. We also decide to select the soybeans price, as the corn market is very related to the soybeans market.
+```{r}
+cov_corn = covariates %>%
+  select(price_corn, gdp_iran, gdp_japan, price_soybeans)
+
+cov_corn = ts(cov_corn)
+```
+
+Now, let's forecast.
+```{r}
+reg3 = window(cov_corn, end = 23)
+forec3 = window(cov_corn, start = 24)
+
+fit3 = Arima(corn_exp_year$tons, xreg = reg3, order = c(1,1,1))
+forecast3 = forecast(fit3, xreg = forec3)
+autoplot(forecast3, ylab = "Corn Exports (Tons)")
+```
+
+And, finally, the last regression summary. Note that the Iran's GDP signal is different from the expected.
+```{r}
+summary(fit3)
+```
+
