@@ -11,10 +11,6 @@ output:
 
 Let's begin installing the packages.
 
-```r
-library(tidyverse)
-```
-
 ```
 ## -- Attaching packages ---------------------------------- tidyverse 1.3.0 --
 ```
@@ -32,10 +28,6 @@ library(tidyverse)
 ## x dplyr::lag()    masks stats::lag()
 ```
 
-```r
-library(lubridate)
-```
-
 ```
 ## 
 ## Attaching package: 'lubridate'
@@ -45,11 +37,6 @@ library(lubridate)
 ## The following object is masked from 'package:base':
 ## 
 ##     date
-```
-
-```r
-library(knitr)
-library(forecast)
 ```
 
 Now we choose the directory and open the data file.
