@@ -354,6 +354,7 @@ corn_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(corn_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Corn Exports - USD"))
 ```
 
@@ -393,6 +394,7 @@ soybeans_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(soybeans_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybeans Exports - USD"))
 ```
 
@@ -428,6 +430,7 @@ soybean_meal_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(soybean_meal_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Meal Exports - USD"))
 ```
 
@@ -463,6 +466,7 @@ soybean_oil_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(soybean_oil_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Soybean Oil Exports - USD"))
 ```
 
@@ -498,6 +502,7 @@ sugar_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(sugar_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Sugar Exports - USD"))
 ```
 
@@ -533,6 +538,7 @@ wheat_route = aggregate(cbind(usd)~route, data = filter(comexstat,
                                                              type == "Export" & 
                                                              date > as.Date("2015-01-01")), 
                            FUN = sum)
+
 kable(arrange(wheat_route, desc(usd)), format.args = list(big.mark = ",", scientific = FALSE), col.names = c("Route", "Wheat Exports - USD"))
 ```
 
